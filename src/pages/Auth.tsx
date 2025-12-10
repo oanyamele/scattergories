@@ -15,6 +15,17 @@ const Auth: React.FC = () => {
   const [username, setUsername] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  // const googleLogin = useGoogleLogin({
+  //   onSuccess: (tokenResponse) => {
+  //     console.log('Google token:', tokenResponse.access_token);
+  //     // TODO: send token to backend for authentication
+  //     navigate(`/lobby/testgame1?host=true`);
+  //   },
+  //   onError: () => {
+  //     console.log('Google login failed');
+  //   },
+  // })
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -77,10 +88,11 @@ const Auth: React.FC = () => {
                   <GameInput
                     type="text"
                     placeholder="Username"
+                    // className="pl-11" // Added padding-left to prevent overlap
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="pl-11"
                     required
+                    leftIcon={<User />}
                   />
                 </div>
               )}
@@ -90,10 +102,11 @@ const Auth: React.FC = () => {
                 <GameInput
                   type="email"
                   placeholder="Email"
+                  // className="pl-11 h-12" // Added padding-left to prevent overlap
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="pl-11"
                   required
+                  leftIcon={<Mail />}
                 />
               </div>
 
@@ -102,10 +115,11 @@ const Auth: React.FC = () => {
                 <GameInput
                   type="password"
                   placeholder="Password"
+                  // className="pl-11 h-12" // Added padding-left to prevent overlap
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="pl-11"
                   required
+                  leftIcon={<Lock />}
                 />
               </div>
 
@@ -133,10 +147,10 @@ const Auth: React.FC = () => {
 
             <GameButton 
               variant="outline" 
-              className="w-full" 
+              className="w-full flex items-center justify-center gap-2" 
               onClick={handleGoogleAuth}
             >
-              <Chrome className="w-5 h-5 mr-2" />
+              <Chrome className="w-5 h-5" />
               Google
             </GameButton>
 
