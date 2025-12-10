@@ -78,7 +78,7 @@ const GameResults: React.FC = () => {
         
         <div className="max-w-4xl mx-auto py-8">
           {/* Header */}
-          <div className="text-center mb-8 animate-slide-in-top">
+          <div className="text-center mb-8 animate-slide-in-top flex flex-col items-center">
             <Trophy className="w-16 h-16 text-accent mx-auto mb-4 animate-bounce-in" />
             <h1 className="font-arcade text-3xl md:text-5xl text-primary neon-text mb-2">
               GAME OVER
@@ -201,7 +201,7 @@ const GameResults: React.FC = () => {
             <GameButton
               variant="outline"
               size="lg"
-              className="flex-1"
+              className="flex-1 flex items-center justify-center gap-2"
               onClick={handleHome}
             >
               <Home className="w-5 h-5 mr-2" />
@@ -210,7 +210,7 @@ const GameResults: React.FC = () => {
             <GameButton
               variant="primary"
               size="lg"
-              className="flex-1"
+              className="flex-1 flex items-center justify-center gap-2"
               onClick={handlePlayAgain}
             >
               <RotateCcw className="w-5 h-5 mr-2" />
