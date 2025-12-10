@@ -11,12 +11,20 @@ import { useToast } from '@/hooks/use-toast';
 const Lobby: React.FC = () => {
   const navigate = useNavigate();
   const { gameId } = useParams();
-  const [searchParams] = useSearchParams();
-  const isHost = searchParams.get('host') === 'true';
   const { toast } = useToast();
+
+  const [mode, setMode] = useState<"select" | "host" | "join">("select");
+  const [joinCode, setJoinCode] = useState("");
+
+  const isHost = mode =='host';
   
   const [copied, setCopied] = useState(false);
-  const gameCode = gameId === 'new' ? 'ABC123' : gameId?.toUpperCase() || 'UNKNOWN';
+  const gameCode = 
+    mode === "join"
+    ? joinCode.toUpperCase()
+    : gameId === 'new'
+    ? 'ABC123'
+    : gameId?.toUpperCase() || 'UNKNOWN';
 
   // Mock players data
   const [players] = useState([
@@ -39,8 +47,52 @@ const Lobby: React.FC = () => {
   };
 
   const handleLeaveGame = () => {
-    navigate('/');
+    setMode("select");
   };
+
+  if (mode === "select") {
+    return (
+      <GameLayout>
+        <PageTransition>
+          <div className="max-w-md mx-auto py-12 text-center">
+
+            <h1 className="font-arcade text-4xl text-primary mb-10">
+              GAME LOBBY
+            </h1>
+
+            {/* CREATE GAME BUTTON */}
+            <GameButton
+              className="w-full mb-6"
+              onClick={() => setMode("host")}
+            >
+              Create Game
+            </GameButton>
+
+            {/* JOIN GAME INPUT + BUTTON */}
+            <GameCard className="p-6 text-center">
+              <input
+                type="text"
+                placeholder="Enter Join Code"
+                value={joinCode}
+                onChange={(e) => setJoinCode(e.target.value)}
+                className="w-full mb-4 px-3 py-2 rounded bg-muted text-center"
+              />
+              <GameButton
+                className="w-full"
+                onClick={() => {
+                  if (joinCode.trim().length === 0) return;
+                  setMode("join");
+                }}
+              >
+                Join Game
+              </GameButton>
+            </GameCard>
+
+          </div>
+        </PageTransition>
+      </GameLayout>
+    );
+  }
 
   return (
     <GameLayout>
@@ -126,7 +178,6 @@ const Lobby: React.FC = () => {
                 size="lg"
                 className="flex-1"
                 onClick={handleStartGame}
-                glow
                 disabled={players.length < 2}
               >
                 Start Game
