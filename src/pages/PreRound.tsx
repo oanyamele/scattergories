@@ -101,7 +101,6 @@ const PreRound: React.FC = () => {
             size="lg"
             className="w-full"
             onClick={handleStartRound}
-            glow
           >
             <Play className="w-6 h-6 mr-2" />
             Start Round (60 seconds)
