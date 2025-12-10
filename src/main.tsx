@@ -1,5 +1,10 @@
 import { createRoot } from "react-dom/client";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import App from "./App.tsx";
 import "./index.css";
 
-createRoot(document.getElementById("root")!).render(<App />);
+createRoot(document.getElementById("root")!).render(
+    <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
+        <App /> {/* ← wrap your App here */}
+    </GoogleOAuthProvider>
+);
