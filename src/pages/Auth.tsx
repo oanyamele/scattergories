@@ -22,7 +22,7 @@ const Auth: React.FC = () => {
     // TODO: Implement actual auth
     setTimeout(() => {
       setIsLoading(false);
-      navigate('/');
+      navigate('/lobby/testgame1?host=true');
     }, 1000);
   };
 
