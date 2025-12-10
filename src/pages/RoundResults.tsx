@@ -175,7 +175,7 @@ const RoundResults: React.FC = () => {
           ))}
 
           {/* Next Round Button */}
-          <GameButton size="lg" className="w-full" onClick={handleNextRound}>
+          <GameButton size="lg" className="w-full flex items-center justify-center" onClick={handleNextRound}>
             {currentRound >= 3
               ? 'See Final Results'
               : `Next Round (${currentRound + 1}/3)`}

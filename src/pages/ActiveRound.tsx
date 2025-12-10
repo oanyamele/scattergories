@@ -98,7 +98,7 @@ const ActiveRound: React.FC = () => {
           {/* Submit Button */}
           <GameButton
             size="lg"
-            className="w-full"
+            className="w-full flex items-center justify-center"
             onClick={handleSubmit}
             disabled={isSubmitted}
           >
