@@ -93,6 +93,7 @@ const Auth: React.FC = () => {
                     onChange={(e) => setUsername(e.target.value)}
                     required
                     leftIcon={<User />}
+                    className="pl-12 h-12 bg-muted text-foreground border-none"
                   />
                 </div>
               )}
@@ -107,6 +108,7 @@ const Auth: React.FC = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   leftIcon={<Mail />}
+                  className="pl-12 h-12 bg-muted text-foreground border-none"
                 />
               </div>
 
@@ -120,6 +122,7 @@ const Auth: React.FC = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   leftIcon={<Lock />}
+                  className="pl-12 h-12 bg-muted text-foreground border-none"
                 />
               </div>
 
