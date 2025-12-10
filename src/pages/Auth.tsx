@@ -114,7 +114,7 @@ const Auth: React.FC = () => {
                 className="w-full" 
                 size="lg"
                 disabled={isLoading}
-                glow
+                // Removed glow to prevent flashing
               >
                 {isLoading ? 'Loading...' : isSignUp ? 'Create Account' : 'Sign In'}
               </GameButton>
