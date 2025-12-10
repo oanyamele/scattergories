@@ -1,0 +1,155 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { GameLayout } from '@/components/layout/GameLayout';
+import { PageTransition } from '@/components/layout/PageTransition';
+import { GameCard } from '@/components/ui/GameCard';
+import { GameButton } from '@/components/ui/GameButton';
+import { Confetti } from '@/components/ui/Confetti';
+import { ArrowRight, Check, X } from 'lucide-react';
+
+interface RoundResult {
+  category: string;
+  answer: string;
+  points: number;
+  isValid: boolean;
+}
+
+const RoundResults: React.FC = () => {
+  const navigate = useNavigate();
+  const { gameId, roundNumber } = useParams();
+  const location = useLocation();
+  const currentRound = parseInt(roundNumber || '1');
+
+  const { letter = 'A', categories = [], answers = [], isSinglePlayer = true } = 
+    (location.state as any) || {};
+
+  const [showConfetti, setShowConfetti] = useState(false);
+
+  // Mock scoring - in real app this would come from API/Datamuse
+  const results: RoundResult[] = categories.map((category: string, index: number) => {
+    const answer = answers[index] || '';
+    const isValid = answer.length > 0 && answer.toUpperCase().startsWith(letter);
+    const points = isValid ? Math.floor(Math.random() * 3) + 1 : 0;
+    return { category, answer, points, isValid };
+  });
+
+  const totalPoints = results.reduce((sum, r) => sum + r.points, 0);
+
+  useEffect(() => {
+    if (totalPoints >= 10) {
+      setShowConfetti(true);
+    }
+  }, [totalPoints]);
+
+  const handleNextRound = () => {
+    if (currentRound >= 3) {
+      navigate(`/game/${gameId}/final`, {
+        state: { isSinglePlayer }
+      });
+    } else {
+      navigate(`/game/${gameId}/pre-round/${currentRound + 1}`);
+    }
+  };
+
+  return (
+    <GameLayout>
+      <PageTransition>
+        <Confetti isActive={showConfetti} />
+        
+        <div className="max-w-4xl mx-auto py-8">
+          {/* Header */}
+          <div className="text-center mb-8 animate-slide-in-top">
+            <p className="font-orbitron text-sm text-muted-foreground uppercase mb-2">
+              Round {currentRound} Complete!
+            </p>
+            <h1 className="font-arcade text-3xl md:text-4xl text-primary neon-text mb-4">
+              RESULTS
+            </h1>
+            <div className="inline-flex items-center gap-2 bg-card border-2 border-primary rounded-xl px-6 py-3">
+              <span className="font-orbitron text-muted-foreground">Round Score:</span>
+              <span className="font-arcade text-3xl text-primary">{totalPoints}</span>
+              <span className="font-orbitron text-muted-foreground">pts</span>
+            </div>
+          </div>
+
+          {/* Results Table */}
+          <GameCard variant="default" className="mb-8 animate-scale-in">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-border">
+                    <th className="text-left py-3 px-4 font-orbitron text-sm text-muted-foreground uppercase">
+                      Category
+                    </th>
+                    <th className="text-left py-3 px-4 font-orbitron text-sm text-muted-foreground uppercase">
+                      Your Answer
+                    </th>
+                    <th className="text-center py-3 px-4 font-orbitron text-sm text-muted-foreground uppercase">
+                      Valid
+                    </th>
+                    <th className="text-right py-3 px-4 font-orbitron text-sm text-muted-foreground uppercase">
+                      Points
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {results.map((result, index) => (
+                    <tr 
+                      key={index}
+                      className="border-b border-border/50 animate-fade-in"
+                      style={{ animationDelay: `${index * 0.1}s` }}
+                    >
+                      <td className="py-4 px-4">
+                        <span className="font-orbitron text-foreground">{result.category}</span>
+                      </td>
+                      <td className="py-4 px-4">
+                        <span className={`font-orbitron ${result.answer ? 'text-foreground' : 'text-muted-foreground italic'}`}>
+                          {result.answer || 'No answer'}
+                        </span>
+                      </td>
+                      <td className="py-4 px-4 text-center">
+                        {result.isValid ? (
+                          <Check className="w-5 h-5 text-neon-green mx-auto" />
+                        ) : (
+                          <X className="w-5 h-5 text-destructive mx-auto" />
+                        )}
+                      </td>
+                      <td className="py-4 px-4 text-right">
+                        <span className={`font-arcade text-xl ${result.points > 0 ? 'text-neon-green' : 'text-muted-foreground'}`}>
+                          +{result.points}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot>
+                  <tr className="bg-muted/50">
+                    <td colSpan={3} className="py-4 px-4 text-right">
+                      <span className="font-orbitron font-bold text-foreground">Total</span>
+                    </td>
+                    <td className="py-4 px-4 text-right">
+                      <span className="font-arcade text-2xl text-primary">{totalPoints}</span>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </GameCard>
+
+          {/* Next Round Button */}
+          <GameButton
+            size="lg"
+            className="w-full"
+            onClick={handleNextRound}
+            glow
+          >
+            {currentRound >= 3 ? 'See Final Results' : `Next Round (${currentRound + 1}/3)`}
+            <ArrowRight className="w-5 h-5 ml-2" />
+          </GameButton>
+        </div>
+      </PageTransition>
+    </GameLayout>
+  );
+};
+
+export default RoundResults;
