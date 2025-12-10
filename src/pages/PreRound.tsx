@@ -33,21 +33,6 @@ const PreRound: React.FC = () => {
     setLetter(LETTERS[Math.floor(Math.random() * LETTERS.length)]);
   };
 
-  const handleRegenerateCategory = (index: number) => {
-    const newCategories = [...categories];
-    // In real app, this would fetch from API
-    const alternates = [
-      'Things that are Cold',
-      'School Subjects',
-      'Music Artists',
-      'Countries',
-      'TV Shows',
-      'Clothing Items',
-    ];
-    newCategories[index] = alternates[Math.floor(Math.random() * alternates.length)];
-    setCategories(newCategories);
-  };
-
   const handleStartRound = () => {
     navigate(`/game/${gameId}/round/${currentRound}`, {
       state: { letter, categories }
@@ -106,7 +91,6 @@ const PreRound: React.FC = () => {
                   key={index}
                   category={category}
                   index={index}
-                  onRegenerate={() => handleRegenerateCategory(index)}
                 />
               ))}
             </div>
