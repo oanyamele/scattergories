@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useGoogleLogin } from '@react-oauth/google';
 import { GameLayout } from '@/components/layout/GameLayout';
 import { PageTransition } from '@/components/layout/PageTransition';
 import { GameCard } from '@/components/ui/GameCard';
@@ -9,6 +10,16 @@ import { Mail, Lock, User, Chrome } from 'lucide-react';
 
 const Auth: React.FC = () => {
   const navigate = useNavigate();
+  const googleLogin = useGoogleLogin({
+    onSuccess: tokenResponse => {
+      console.log('Google token:', tokenResponse.access_token);
+      
+      navigate('/lobby/testgame1?host=true');
+    },
+    onError: () => {
+      console.log('Google login failed');
+    },
+  });
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -151,7 +162,7 @@ const Auth: React.FC = () => {
             <GameButton 
               variant="outline" 
               className="w-full flex items-center justify-center gap-2" 
-              onClick={handleGoogleAuth}
+              onClick={() => googleLogin()}
             >
               <Chrome className="w-5 h-5" />
               Google
