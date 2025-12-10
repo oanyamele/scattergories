@@ -142,7 +142,10 @@ const Auth: React.FC = () => {
 
             {!isSignUp && (
               <p className="text-center text-sm text-muted-foreground mt-4 font-orbitron">
-                <button className="text-primary hover:underline">
+                <button 
+                  className="text-primary hover:underline"
+                  disabled // 'Forgot password' button has been disabled
+                  >
                   Forgot password?
                 </button>
               </p>
