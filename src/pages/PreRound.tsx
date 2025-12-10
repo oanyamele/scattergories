@@ -99,7 +99,7 @@ const PreRound: React.FC = () => {
           {/* Start Button */}
           <GameButton
             size="lg"
-            className="w-full"
+            className="w-full flex items-center justify-center"
             onClick={handleStartRound}
           >
             <Play className="w-6 h-6 mr-2" />
